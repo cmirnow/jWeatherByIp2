@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="module" version="4.0" client="site" method="upgrade">
+   <name>jWeather by ip</name>
+   <creationDate>March 19, 2022</creationDate>
+   <author>Masterpro project</author>
+   <authorEmail>chicotus.pro@gmail.com</authorEmail>
+   <authorUrl>http://www.masterpro.ws</authorUrl>
+   <copyright>Copyright 2015 Alexei Smirnov. All rights reserved.</copyright>
+   <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+   <version>2.0.0</version>
+   <description><![CDATA[<p><a href="http://masterpro.ws" target="_blank"><img style="margin-bottom: 15px; margin-top: 15px;" src="/modules/mod_jweather_by_ip/img/logo.png" alt="Masterpro.ws" /></a></p>
+<p><h2>jWeather by ip</strong></h2>
+<p style="font-style:italic; border:2px solid green;padding:10px;">Masterpro studio bring projects to life using most recent tools and techniques, modern CMS and E-Commerce solutions. Welcome.</p>
+<p>The Joomla 4* weather module <strong>jWeather By IP</strong> allows you to choose between WorldWeatherOnline, Dark Sky and OpenWeatherMap, and between IPGeolocation.io and Geoplugin.com.</p>
+<p><strong>Getting Started, step by step:</strong></p>
+<ol>
+<li>Install module.</li>
+<li>Go to <a href="https://worldweatheronline.com/developer" target="_blank">World Weather Online</a> and get your premium api_key. Attention, World Weather Online Free API signup has now been suspended. For new users to use Weather API they will be issued Premium Trial key for free testing for 30 days.</li>
+<li>Optional: you can use <a href="https://home.openweathermap.org/users/sign_up" target="_blank">OpenWeatherMap</a> weather station.</li>
+<li>Optional: you can use <a href="https://darksky.net/dev" target="_blank">Dark Sky</a> weather station.</li>
+<li>Optional: go to <a href="https://app.ipgeolocation.io/auth/login" target="_blank">IPGeolocation.io</a> and get your free (or Premium) api_key.</li>
+<li>Go to "Module Manager" ->  "jWeather by ip", enter your api_keys, select the required options and turn on the module.</li>
+<li>Enjoy!</li>
+</ol>
+<p><strong>jWeather by ip</strong> module is released under the GNU/GPL license.</a></p>
+<p><a href="http://masterpro.ws/jweather-by-ip-pogoda-po-ip-dlya-joomla" target="_blank">Learn more</a></p>]]></description>
+   <namespace>JweatherbyipNamespace\Module\Jweatherbyip</namespace>
+   <updateservers>
+      <server type="extension" priority="1" name="Masterpro project">https://masterpro.ws/geo/updates/jweatherbyip.xml</server>
+   </updateservers>
+   <files>
+      <filename module="mod_jweather_by_ip">mod_jweather_by_ip.php</filename>
+      <filename>mod_jweather_by_ip.xml</filename>
+      <folder>Helper</folder>
+      <folder>img</folder>
+      <folder>tmpl</folder>
+      <folder>language</folder>
+   </files>
+   <config>
+      <fields name="params">
+         <fieldset name="basic">
+            <field name="map" type="list" default="0" label="MAP" description="MAP_DESC" class="btn-group">
+               <option value="0">None</option>
+               <option value="31">Yandex Map</option>
+               <option value="30">Google Map</option>
+            </field>
+            <field name="zoom" type="list" default="12" label="ZOOM" description="ZOOM_DESC" class="btn-group" showon="map!:0">
+               <option value="0">0</option>
+               <option value="1">1</option>
+               <option value="2">2</option>
+               <option value="3">3</option>
+               <option value="4">4</option>
+               <option value="5">5</option>
+               <option value="6">6</option>
+               <option value="7">7</option>
+               <option value="8">8</option>
+               <option value="9">9</option>
+               <option value="10">10</option>
+               <option value="11">11</option>
+               <option value="12">12</option>
+               <option value="13">13</option>
+               <option value="14">14</option>
+               <option value="15">15</option>
+               <option value="16">16</option>
+               <option value="17">17</option>
+            </field>
+            <field name="api_choose" type="list" default="4" label="Select API" description="CHOOSE_DESK">
+               <option value="2">IP Geolocation API</option>
+               <option value="4">Geoplugin.com</option>
+               <option value="3">Geographical coordinates</option>
+            </field>
+            <field name="weather_source_choose" type="list" default="4" label="Select weather source" description="CHOOSE_SOURCE" class="btn-group">
+               <option value="0">WorldWeatherOnline</option>
+               <option value="3">WorldWeatherOnline: Marine, Sailing and Surfing Weather</option>
+               <option value="1">OpenWeatherMap</option>
+               <option value="2">Dark Sky</option>
+               <option value="4">None</option>
+            </field>
+            <field name="api_key" type="text" default="" label="API_KEY" description="API_KEY_DESC" showon="weather_source_choose:0[OR]weather_source_choose:3" />
+            <field name="api_key_sypexgeo" type="text" default="" label="SGKEY" description="SGKEY_DESK" showon="api_choose:1" />
+            <field name="api_key_owm" type="text" default="" label="OPENWEATHERMAP_KEY" description="OPENWEATHERMAP_DESK" showon="weather_source_choose:1" />
+            <field name="api_key_dsky" type="text" default="" label="DARKSKY_KEY" description="DARKSKY_DESK" showon="weather_source_choose:2" />
+            <field name="api_key_geoloc" type="text" default="" label="IPGEOLOCATION_KEY" description="IPGEOLOCATION_DESK" showon="api_choose:2" />
+            <field name="api_googlemap" type="text" default="" label="GOOGLEMAP_KEY" description="GOOGLEMAP_DESC" showon="map:30" />
+            <field name="api_yandexmap" type="text" default="" label="YANDEXMAP_KEY" description="YANDEXMAP_DESC" showon="map:31" />
+            <field name="lat" type="text" default="48.85341" label="LAT" description="LAT_DESC" showon="api_choose:3" />
+            <field name="lon" type="text" default="2.3488" label="LON" description="LON_DESC" showon="api_choose:3" />
+            <field name="html_for_balloon" type="textarea" default="Enter some text or html" label="HTML_FOR_BALLOON" description="HTML_FOR_BALLOON_DESC" rows="5" cols="5" filter="raw" showon="weather_source_choose:4"/>
+         </fieldset>
+         <fieldset name="Greeting">
+            <field name="greeting" type="radio" default="1" label="GREETING" description="GREETING_DESC" class="btn-group" showon="api_choose!:3">
+               <option value="0">Нет</option>
+               <option value="1">Да</option>
+            </field>
+            <field name="color_weather" type="color" default="#660000" label="COLOR_FONT" description="COLOR_FONT_DESC" showon="map!:31"/>
+            <field name="font_size_weather" type="text" default="90%" label="FONT_SIZE_WEATHER" description="FONT_SIZE_WEATHER_DESC" showon="map:0" />
+            <field name="good_day" type="text" default="Good day, " label="GOOD_DAY" description="GOOD_DAY_DESC" showon="greeting:1[AND]api_choose!:3" />
+            <field name="good_evening" type="text" default="Good evening, " label="GOOD_EVENING" description="GOOD_EVENING_DESC" showon="greeting:1[AND]api_choose!:3" />
+            <field name="good_night" type="text" default="Good night, " label="GOOD_NIGHT" description="GOOD_NIGHT_DESC" showon="greeting:1[AND]api_choose!:3" />
+            <field name="good_morning" type="text" default="Good morning, " label="GOOD_MORNING" description="GOOD_MORNING_DESC" showon="greeting:1[AND]api_choose!:3" />
+            <field name="color_title" type="color" default="#0000CC" label="COLOR_FONT_GREETING" description="COLOR_FONT_GREETING_DESC" showon="greeting:1[AND]api_choose!:3" />
+            <field name="font_size_title" type="text" default="110%" label="FONT_SIZE_GREETING" description="FONT_SIZE_GREETING_DESC" showon="greeting:1[AND]api_choose!:3" />
+            <field name="height_map" type="text" default="350px" label="HEIGHT_MAP" description="HEIGHT_MAP_DESC" showon="map!:0" />
+            <field name="table_td_style" type="textarea" default="padding-right:5px;color:#666;" label="TABLE_TD_STYLE" description="TABLE_TD_STYLE_DESC" rows="5" cols="5" filter="raw" showon="weather_source_choose!:4" />
+         </fieldset>
+         <fieldset name="weather_display_options" showon="weather_source_choose!:4">
+            <field name="img" type="radio" default="1" label="DISPLAY_IMG" description="DISPLAY_IMG_DESC" class="btn-group" showon="weather_source_choose!:4">
+               <option value="0">Нет</option>
+               <option value="1">Да</option>
+            </field>
+            <field name="title" type="radio" default="0" label="DISPLAY_TITLE" description="DISPLAY_TITLE_DESK" class="btn-group" showon="weather_source_choose!:4">
+               <option value="0">Нет</option>
+               <option value="2">Да</option>
+            </field>
+            <field name="temp_C" type="radio" default="0" label="TEMPERC" description="TEMPERC_DESC" class="btn-group" showon="weather_source_choose!:4">
+               <option value="0">Нет</option>
+               <option value="3">Да</option>
+            </field>
+            <field name="windspeedKmph" type="radio" default="0" label="WINDSPEED" description="WINDSPEED_DESC" class="btn-group" showon="weather_source_choose!:4">
+               <option value="0">Нет</option>
+               <option value="4">Да</option>
+            </field>
+            <field name="pressure" type="radio" default="0" label="PRESSURE" description="PRESSURE_DESC" class="btn-group" showon="weather_source_choose!:4">
+               <option value="0">Нет</option>
+               <option value="5">Да</option>
+            </field>
+            <field name="humidity" type="radio" default="0" label="HIMIDITY" description="HIMIDITY_DESC" class="btn-group" showon="weather_source_choose!:4">
+               <option value="0">Нет</option>
+               <option value="6">Да</option>
+            </field>
+            <field name="cloudcover" type="radio" default="0" label="CLOUDCOVER" description="CLOUDCOVER_DESC" class="btn-group" showon="weather_source_choose!:4">
+               <option value="0">Нет</option>
+               <option value="7">Да</option>
+            </field>
+            <field name="visibility" type="radio" default="0" label="VISIVILITY" description="VISIVILITY_DESC" class="btn-group" showon="weather_source_choose!:4">
+               <option value="0">Нет</option>
+               <option value="8">Да</option>
+            </field>
+            <field name="weatherDesc" type="radio" default="0" label="WEATHER_IN_TWO_WORDS" description="WEATHER_DESC" class="btn-group" showon="weather_source_choose!:4">
+               <option value="0">Нет</option>
+               <option value="9">Да</option>
+            </field>
+            <field type="spacer" hr="true" />
+            <field name="temp_F" type="radio" default="0" label="TEMPERF" description="TEMPERF_DESC" class="btn-group" showon="weather_source_choose:0[OR]weather_source_choose:3">
+               <option value="0">Нет</option>
+               <option value="15">Да</option>
+            </field>
+            <field name="date" type="radio" default="0" label="TODAYSDATE" description="TODAYSDATE_DESC" class="btn-group" showon="weather_source_choose:0[OR]weather_source_choose:3">
+               <option value="0">Нет</option>
+               <option value="14">Да</option>
+            </field>
+            <field name="sunrise" type="radio" default="0" label="SUNRISE" description="SUNRISE_DESC" class="btn-group" showon="weather_source_choose:0[OR]weather_source_choose:3">
+               <option value="0">Нет</option>
+               <option value="10">Да</option>
+            </field>
+            <field name="sunset" type="radio" default="0" label="SUNSET" description="SUNSET_DESC" class="btn-group" showon="weather_source_choose:0[OR]weather_source_choose:3">
+               <option value="0">Нет</option>
+               <option value="11">Да</option>
+            </field>
+            <field name="moonrise" type="radio" default="0" label="MOONRISE" description="MOONRISE_DESC" class="btn-group" showon="weather_source_choose:0[OR]weather_source_choose:3">
+               <option value="0">Нет</option>
+               <option value="12">Да</option>
+            </field>
+            <field name="moonset" type="radio" default="0" label="MOONSET" description="MOONSET_DESC" class="btn-group" showon="weather_source_choose:0[OR]weather_source_choose:3">
+               <option value="0">Нет</option>
+               <option value="13">Да</option>
+            </field>
+            <field name="moonphase" type="radio" default="0" label="MOONPHASE" description="MOONPHASE_DESC" class="btn-group" showon="weather_source_choose:0[OR]weather_source_choose:3">
+               <option value="0">Нет</option>
+               <option value="16">Да</option>
+            </field>
+            <field name="moonillumination" type="radio" default="0" label="MOONILLUMINATION" description="MOONILLUMINATION_DESC" class="btn-group" showon="weather_source_choose:0[OR]weather_source_choose:3">
+               <option value="0">Нет</option>
+               <option value="17">Да</option>
+            </field>
+            <field type="spacer" hr="true" />
+            <field name="sigheightm" type="radio" default="0" label="SIGHEIGHTM" description="SIGHEIGHTM_DESC" class="btn-group" showon="weather_source_choose:3">
+               <option value="0">Нет</option>
+               <option value="18">Да</option>
+            </field>
+            <field name="swellheightm" type="radio" default="0" label="SWELLHEIGHTM" description="SWELLHEIGHTM_DESC" class="btn-group" showon="weather_source_choose:3">
+               <option value="0">Нет</option>
+               <option value="19">Да</option>
+            </field>
+            <field name="swellheightft" type="radio" default="0" label="SWELLHEIGHTFT" description="SWELLHEIGHTFT_DESC" class="btn-group" showon="weather_source_choose:3">
+               <option value="0">Нет</option>
+               <option value="20">Да</option>
+            </field>
+            <field name="swelldir" type="radio" default="0" label="SWELLDIR" description="SWELLDIR_DESC" class="btn-group" showon="weather_source_choose:3">
+               <option value="0">Нет</option>
+               <option value="21">Да</option>
+            </field>
+            <field name="swelldir16point" type="radio" default="0" label="SWELLDIR16POINT" description="SWELLDIR16POINT_DESC" class="btn-group" showon="weather_source_choose:3">
+               <option value="0">Нет</option>
+               <option value="22">Да</option>
+            </field>
+            <field name="swellperiodsecs" type="radio" default="0" label="SWELLPERIODSECS" description="SWELLPERIODSECS_DESC" class="btn-group" showon="weather_source_choose:3">
+               <option value="0">Нет</option>
+               <option value="23">Да</option>
+            </field>
+            <field name="watertempc" type="radio" default="0" label="WATERTEMPC" description="WATERTEMPC_DESC" class="btn-group" showon="weather_source_choose:3">
+               <option value="0">Нет</option>
+               <option value="24">Да</option>
+            </field>
+            <field name="watertempf" type="radio" default="0" label="WATERTEMPF" description="WATERTEMPF_DESC" class="btn-group" showon="weather_source_choose:3">
+               <option value="0">Нет</option>
+               <option value="25">Да</option>
+            </field>
+            
+         </fieldset>
+         <fieldset name="advanced">
+            <field name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+            <field name="moduleclass_sfx" type="textarea" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" rows="3" />
+            <field name="cache" type="list" label="COM_MODULES_FIELD_CACHING_LABEL" description="COM_MODULES_FIELD_CACHING_DESC" default="1" filter="integer">
+               <option value="1">JGLOBAL_USE_GLOBAL</option>
+               <option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+            </field>
+            <field name="cache_time" type="number" label="COM_MODULES_FIELD_CACHE_TIME_LABEL" description="COM_MODULES_FIELD_CACHE_TIME_DESC" default="900" filter="integer" />
+            <field name="cachemode" type="hidden" default="static">
+               <option value="static" />
+            </field>
+         </fieldset>
+      </fields>
+   </config>
+</extension>
