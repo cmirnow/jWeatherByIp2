@@ -27,7 +27,6 @@
 */
 // No direct access
 defined('_JEXEC') or die;
-
 if ($greeting == 1)
 {
 ?>
@@ -67,6 +66,7 @@ if (in_array(1, $values))
             $html .= '<tr><td><img src="https://openweathermap.org/img/w/' . $source[0] . '.png" title="' . $source[1] . '"></td></tr>';
         break;
         case 2:
+        case 5:
             $html .= '<tr><td><img src="/modules/mod_jweather_by_ip/img/icons/' . $source[0] . '.png" title="' . $source[1] . '"></td></tr>';
         break;
         default:

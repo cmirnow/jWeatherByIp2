@@ -130,6 +130,34 @@ class JweatherbyipHelper
                 $obj['currently']['summary']
             ];
             break;
+
+            case 5:
+                $api_key = $params->get('api_key_visualcrossing');
+                $json = file_get_contents('https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/' . self::getStart($params) [0] . ',' . self::getStart($params) [1] . '/today?unitGroup=metric&include=days&key=' . $api_key);
+                $obj = json_decode($json, true);
+                return [
+                $obj["days"][0]['icon'],
+                $obj["days"][0]['description'],
+                $obj["days"][0]['temp'],
+                $obj["days"][0]['windspeed'],
+                $obj["days"][0]['pressure'],
+                $obj["days"][0]['humidity'],
+                $obj["days"][0]['cloudcover'],
+                $obj["days"][0]['visibility'],
+                $obj["days"][0]['conditions'],
+                HtmlHelper::date(new Date($obj["days"][0]['sunriseEpoch']), Text::_('DATE_FORMAT_FILTER_DATETIME')),
+                HtmlHelper::date(new Date($obj["days"][0]['sunsetEpoch']), Text::_('DATE_FORMAT_FILTER_DATETIME')),
+                $obj["days"][0]['solarradiation'],
+                $obj["days"][0]['solarenergy'],
+                $obj["days"][0]['moonphase'],
+                $obj["days"][0]['uvindex'],
+                $obj["days"][0]['severerisk'],
+                $obj["days"][0]['dew'],
+                $obj["days"][0]['feelslike'],
+                $obj["days"][0]['preciptype']
+            ];
+            break;
+
             case 3:
                 $api_key = $params->get('api_key');
                 /* $num_of_days = 1; */
@@ -227,9 +255,19 @@ class JweatherbyipHelper
             'WATERTEMPC',
             'WATERTEMPF'
         );
-        $owm = array(
+        $sun = array(
             'SUNRISE',
             'SUNSET'
+        );
+        $vc = array(
+            'SOLARRADIATION',
+            'SOLARENERGY',
+            'MOONPHASE',
+            'UVINDEX',
+            'SEVERERISK',
+            'DEW',
+            'FEELSLIKE',
+            'PRECIPTYPE'
         );
         $x = $params->get('weather_source_choose');
         switch ($x)
@@ -238,10 +276,13 @@ class JweatherbyipHelper
                 return array_merge($main, $wwo0);
             break;
             case 1:
-                return array_merge($main, $owm);
+                return array_merge($main, $sun);
             break;
             case 3:
                 return array_merge($main, $wwo0, $wwo3);
+            break;
+            case 5:
+                return array_merge($main, $sun, $vc);
             break;
             default:
                 return $main;
@@ -285,6 +326,19 @@ class JweatherbyipHelper
             $params->get('sunrise') ,
             $params->get('sunset')
         );
+        $vc = array(
+            $params->get('sunrise_vc') ,
+            $params->get('sunset_vc') ,
+            $params->get('solarradiation') ,
+            $params->get('solarenergy') ,
+            $params->get('moonphase_vc') ,
+            $params->get('uvindex') ,
+            $params->get('severerisk') ,
+            $params->get('dew') ,
+            $params->get('feelslike') ,
+            $params->get('preciptype')
+        );
+
         $x = $params->get('weather_source_choose');
         switch ($x)
         {
@@ -296,6 +350,9 @@ class JweatherbyipHelper
             break;
             case 3:
                 return array_merge($main, $wwo0, $wwo3);
+            break;
+            case 5:
+                return array_merge($main, $vc);
             break;
             default:
                 return $main;

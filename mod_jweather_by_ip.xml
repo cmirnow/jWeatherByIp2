@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension type="module" version="4.0" client="site" method="upgrade">
    <name>jWeather by ip</name>
-   <creationDate>March 27, 2022</creationDate>
+   <creationDate>July 2, 2022</creationDate>
    <author>Masterpro project</author>
    <authorEmail>chicotus.pro@gmail.com</authorEmail>
    <authorUrl>http://www.masterpro.ws</authorUrl>
    <copyright>Copyright 2015 Alexei Smirnov. All rights reserved.</copyright>
    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-   <version>2.1.0</version>
+   <version>2.2.0</version>
    <description><![CDATA[<p><a href="http://masterpro.ws" target="_blank"><img style="margin-bottom: 15px; margin-top: 15px;" src="/modules/mod_jweather_by_ip/img/logo.png" alt="Masterpro.ws" /></a></p>
 <p><h2>jWeather by ip</strong></h2>
 <p style="font-style:italic; border:2px solid green;padding:10px;">Masterpro studio bring projects to life using most recent tools and techniques, modern CMS and E-Commerce solutions. Welcome.</p>
-<p>The Joomla 4* weather module <strong>jWeather By IP</strong> allows you to choose between WorldWeatherOnline, Dark Sky and OpenWeatherMap, and between IPGeolocation.io and Geoplugin.com.</p>
+<p>The Joomla 4* weather module <strong>jWeather By IP</strong> allows you to choose between WorldWeatherOnline, Dark Sky, Visual Crossing and OpenWeatherMap, and between IPGeolocation.io and Geoplugin.com. By default, this module uses the free plugin to geotargeting geoPlugin.</p>
+<p style="border:2px solid red;padding:10px;">Support for the Dark Sky API will be ending on March 31st, 2023. Dark Sky is no longer accepting new members.</p>
 <p><strong>Getting Started, step by step:</strong></p>
 <ol>
 <li>Install module.</li>
-<li>Go to <a href="https://worldweatheronline.com/developer" target="_blank">World Weather Online</a> and get your premium api_key. Attention, World Weather Online Free API signup has now been suspended. For new users to use Weather API they will be issued Premium Trial key for free testing for 30 days.</li>
-<li>Optional: you can use <a href="https://home.openweathermap.org/users/sign_up" target="_blank">OpenWeatherMap</a> weather station.</li>
-<li>Optional: you can use <a href="https://darksky.net/dev" target="_blank">Dark Sky</a> weather station.</li>
-<li>Optional: go to <a href="https://app.ipgeolocation.io/auth/login" target="_blank">IPGeolocation.io</a> and get your free (or Premium) api_key.</li>
+<li>Optional. Go to <a href="https://worldweatheronline.com/developer/" target="_blank">World Weather Online</a> and get your premium api_key. Attention, World Weather Online Free API signup has now been suspended. For new users to use Weather API they will be issued Premium Trial key for free testing for 30 days.</li>
+<li>Optional: you can use <a href="https://home.openweathermap.org/users/sign_up" target="_blank">OpenWeatherMap</a> weather station (60 calls/minute, 1000000 calls/month Free).</li>
+<li>Optional: you can use <a href="https://www.visualcrossing.com/weather-api" target="_blank">Visual Crossing</a> weather station (1000 records/day).</li>
+<li>Optional: go to <a href="https://app.ipgeolocation.io/auth/login" target="_blank">IPGeolocation.io</a> and get your free (1K Daily Limit) or Premium api_key.</li>
 <li>Go to "Module Manager" ->  "jWeather by ip", enter your api_keys, select the required options and turn on the module.</li>
 <li>Enjoy!</li>
 </ol>
@@ -73,12 +74,14 @@
                <option value="0">WorldWeatherOnline</option>
                <option value="3">WorldWeatherOnline: Marine, Sailing and Surfing Weather</option>
                <option value="1">OpenWeatherMap</option>
+               <option value="5">Visual Crossing</option>
                <option value="2">Dark Sky</option>
                <option value="4">None</option>
             </field>
             <field name="api_key" type="text" default="" label="API_KEY" description="API_KEY_DESC" showon="weather_source_choose:0[OR]weather_source_choose:3" />
             <field name="api_key_owm" type="text" default="" label="OPENWEATHERMAP_KEY" description="OPENWEATHERMAP_DESK" showon="weather_source_choose:1" />
             <field name="api_key_dsky" type="text" default="" label="DARKSKY_KEY" description="DARKSKY_DESK" showon="weather_source_choose:2" />
+            <field name="api_key_visualcrossing" type="text" default="" label="VISUALCROSSING_KEY" description="VISUAL_CROSSING_DESK" showon="weather_source_choose:5" />
             <field name="api_key_geoloc" type="text" default="" label="IPGEOLOCATION_KEY" description="IPGEOLOCATION_DESK" showon="api_choose:2" />
             <field name="api_googlemap" type="text" default="" label="GOOGLEMAP_KEY" description="GOOGLEMAP_DESC" showon="map:30" />
             <field name="api_yandexmap" type="text" default="" label="YANDEXMAP_KEY" description="YANDEXMAP_DESC" showon="map:31" />
@@ -171,6 +174,46 @@
             <field name="moonillumination" type="radio" default="0" label="MOONILLUMINATION" description="MOONILLUMINATION_DESC" class="btn-group" showon="weather_source_choose:0[OR]weather_source_choose:3">
                <option value="0">Нет</option>
                <option value="17">Да</option>
+            </field>
+            <field name="sunrise_vc" type="radio" default="0" label="SUNRISE" description="SUNRISE_DESC" class="btn-group" showon="weather_source_choose:5">
+               <option value="0">Нет</option>
+               <option value="10">Да</option>
+            </field>
+            <field name="sunset_vc" type="radio" default="0" label="SUNSET" description="SUNSET_DESC" class="btn-group" showon="weather_source_choose:5">
+               <option value="0">Нет</option>
+               <option value="11">Да</option>
+            </field>
+            <field name="solarradiation" type="radio" default="0" label="SOLARRADIATION" description="SOLARRADIATION_DESC" class="btn-group" showon="weather_source_choose:5">
+               <option value="0">Нет</option>
+               <option value="12">Да</option>
+            </field>
+            <field name="solarenergy" type="radio" default="0" label="SOLARENERGY" description="SOLARENERGY_DESC" class="btn-group" showon="weather_source_choose:5">
+               <option value="0">Нет</option>
+               <option value="13">Да</option>
+            </field>
+            <field name="moonphase_vc" type="radio" default="0" label="MOONPHASE" description="MOONPHASE_DESC" class="btn-group" showon="weather_source_choose:5">
+               <option value="0">Нет</option>
+               <option value="14">Да</option>
+            </field>
+            <field name="uvindex" type="radio" default="0" label="UVINDEX" description="UVINDESK_DESC" class="btn-group" showon="weather_source_choose:5">
+               <option value="0">Нет</option>
+               <option value="15">Да</option>
+            </field>
+            <field name="severerisk" type="radio" default="0" label="SEVERERISK" description="SEVERERISK_DESC" class="btn-group" showon="weather_source_choose:5">
+               <option value="0">Нет</option>
+               <option value="16">Да</option>
+            </field>
+            <field name="dew" type="radio" default="0" label="DEW" description="DEW_DESC" class="btn-group" showon="weather_source_choose:5">
+               <option value="0">Нет</option>
+               <option value="17">Да</option>
+            </field>
+            <field name="feelslike" type="radio" default="0" label="FEELSLIKE" description="FEELSLIKE_DESC" class="btn-group" showon="weather_source_choose:5">
+               <option value="0">Нет</option>
+               <option value="18">Да</option>
+            </field>
+            <field name="preciptype" type="radio" default="0" label="PRECIPTYPE" description="PRECIPTYPE_DESC" class="btn-group" showon="weather_source_choose:5">
+               <option value="0">Нет</option>
+               <option value="19">Да</option>
             </field>
             <field type="spacer" hr="true" />
             <field name="sigheightm" type="radio" default="0" label="SIGHEIGHTM" description="SIGHEIGHTM_DESC" class="btn-group" showon="weather_source_choose:3">
