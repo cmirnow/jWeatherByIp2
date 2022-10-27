@@ -6,10 +6,10 @@
 * ===================================================
 * @author
 * Name: Masterpro project, www.masterpro.ws
-* Email: chicotus.pro@gmail.com
-* Url: http://www.masterpro.ws
+* Email: info@masterpro.ws
+* Url: https://masterpro.ws
 * ===================================================
-* @copyright (C) 2015 Alex Smirnov. All rights reserved.
+* @copyright (C) 2015 Alexei Smirnov. All rights reserved.
 * @license GNU GPL 2.0 (http://www.gnu.org/licenses/gpl-2.0.html)
 **/
 /*
@@ -51,5 +51,6 @@ $names = JweatherbyipHelper::getNames($params);
 $source = JweatherbyipHelper::getSource($params);
 $values = JweatherbyipHelper::getValues($params);
 $lang = JweatherbyipHelper::getLang($params);
+$icon_open_meteo = JweatherbyipHelper::icons_open_meteo($source[0]);
 
 require ModuleHelper::getLayoutPath('mod_jweather_by_ip', $params->get('layout', 'default'));

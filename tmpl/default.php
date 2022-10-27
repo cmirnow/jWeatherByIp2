@@ -6,8 +6,8 @@
  * ===================================================
  * @author
  * Name: Masterpro project, www.masterpro.ws
- * Email: chicotus.pro@gmail.com
- * Url: http://www.masterpro.ws
+ * Email: info@masterpro.ws
+ * Url: https://masterpro.ws
  * ===================================================
  * @copyright (C) 2015 Alexei Smirnov. All rights reserved.
  * @license GNU GPL 2.0 (http://www.gnu.org/licenses/gpl-2.0.html)
@@ -69,8 +69,11 @@ if (in_array(1, $values))
         case 5:
             $html .= '<tr><td><img src="/modules/mod_jweather_by_ip/img/icons/' . $source[0] . '.png" title="' . $source[1] . '"></td></tr>';
         break;
+        case 6:
+            $html .= '<tr><td><img src="/modules/mod_jweather_by_ip/img/icons/' . $icon_open_meteo . '.png" title="' . $source[1] . '"></td></tr>';
+        break;
         default:
-            $html .= '<tr><td><img src="' . str_replace("http", "https", $source[0]) . '" title="' . $source[1] . '"></td></tr>';
+            $html .= '<tr><td><img src="' . $source[0] . '" title="' . $source[1] . '"></td></tr>';
     }
 }
 foreach (array_combine($names, $source) as $names => $source):

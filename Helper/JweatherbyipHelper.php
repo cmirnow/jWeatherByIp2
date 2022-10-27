@@ -6,8 +6,8 @@
  * ===================================================
  * @author
  * Name: Masterpro project, www.masterpro.ws
- * Email: chicotus.pro@gmail.com
- * Url: http://www.masterpro.ws
+ * Email: info@masterpro.ws
+ * Url: https://masterpro.ws
  * ===================================================
  * @copyright (C) 2015 Alexei Smirnov. All rights reserved.
  * @license GNU GPL 2.0 (http://www.gnu.org/licenses/gpl-2.0.html)
@@ -33,6 +33,37 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+
+const WEATHER_CODES_OPEN_METEO = array(
+'0' => 'Clear sky',
+'1' => 'Mainly clear',
+'2' => 'Partly cloudy', 
+'3' => 'Overcast',
+'45' => 'Fog',
+'48' => 'Depositing rime fog',
+'51' => 'Light drizzle',
+'53' => 'Moderate drizzle',
+'55' => 'Drizzle dense intensity',
+'56' => 'Light freezing drizzle',
+'57' => 'Dense intensity freezing drizzle',
+'61' => 'Slight rain', 
+'63' => 'Moderate rain', 
+'65' => 'Heavy intensity rain',
+'66' => 'Light freezing rain',
+'67' => 'Heavy intensity freezing rain',
+'71' => 'Slight snow fall', 
+'73' => 'Moderate snow fall', 
+'75' => 'Heavy intensity snow fall',
+'77' => 'Snow grains',
+'80' => 'Slight rain showers', 
+'81' => 'Moderate rain showers', 
+'82' => 'Violent rain showers', 
+'85' => 'Slight snow showers', 
+'86' => 'Heavy snow showers',
+'95' => 'Thunderstorm: Slight or moderate',
+'96' => 'Thunderstorm with slight hail',
+'99' => 'Thunderstorm with heavy hail'
+);
 
 class JweatherbyipHelper
 {
@@ -128,6 +159,20 @@ class JweatherbyipHelper
                 $obj['currently']['cloudCover'],
                 $obj['currently']['visibility'],
                 $obj['currently']['summary']
+            ];
+            break;
+
+            case 6:
+                $json = file_get_contents('https://api.open-meteo.com/v1/forecast?latitude=' . self::getStart($params) [0] . '&longitude=' . self::getStart($params) [1] . '&current_weather=true&timezone=auto');
+                $obj = json_decode($json, true);
+                return [
+                $obj['current_weather']['weathercode'],
+                WEATHER_CODES_OPEN_METEO[$obj['current_weather']['weathercode']],
+                $obj['current_weather']['temperature'],
+                $obj['current_weather']['windspeed'],
+                $obj['current_weather']['winddirection'],
+                $obj['current_weather']['time'],
+                $obj['timezone']
             ];
             break;
 
@@ -269,6 +314,15 @@ class JweatherbyipHelper
             'FEELSLIKE',
             'PRECIPTYPE'
         );
+        $openmeteo = array(
+            'WEATHER_ICON',
+            'WEATHER_MAIN',
+            'TEMPERC',
+            'WINDSPEED',
+            'WINDDIRECTION',
+            'TIME',
+            'TIMEZONE'
+        );
         $x = $params->get('weather_source_choose');
         switch ($x)
         {
@@ -283,6 +337,9 @@ class JweatherbyipHelper
             break;
             case 5:
                 return array_merge($main, $sun, $vc);
+            break;
+            case 6:
+                return $openmeteo;
             break;
             default:
                 return $main;
@@ -338,6 +395,15 @@ class JweatherbyipHelper
             $params->get('feelslike') ,
             $params->get('preciptype')
         );
+        $openmeteo = array(
+            $params->get('img') ,
+            $params->get('title') ,
+            $params->get('temperature') ,
+            $params->get('windspeed') ,
+            $params->get('winddirection') ,
+            $params->get('time') ,
+            $params->get('timezone')
+        );
 
         $x = $params->get('weather_source_choose');
         switch ($x)
@@ -353,6 +419,9 @@ class JweatherbyipHelper
             break;
             case 5:
                 return array_merge($main, $vc);
+            break;
+            case 6:
+                return $openmeteo;
             break;
             default:
                 return $main;
@@ -395,4 +464,22 @@ class JweatherbyipHelper
         return [$obj['geoplugin_latitude'], $obj['geoplugin_longitude'], $obj['geoplugin_city']];
     }
 
+    public static function icons_open_meteo($x)
+    {
+  if ($x == '0') {
+    return 'clear-day';
+} elseif (in_array($x, ['1','2','3'])) { 
+    return 'partly-cloudy-day';
+} elseif (in_array($x, ['45','48'])) { 
+    return 'fog';
+} elseif (in_array($x, ['51','53','55','56','57'])) { 
+    return 'hail';
+} elseif (in_array($x, ['61','63','65','66','67','80','81','82'])) { 
+    return 'rain';
+} elseif (in_array($x, ['71','73','75','77','85','86'])) { 
+    return 'snow';
+} elseif (in_array($x, ['95','96','99'])) { 
+    return 'thunder';
+}
+    }
 }
