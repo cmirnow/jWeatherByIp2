@@ -30,20 +30,21 @@ defined('_JEXEC') or die;
 if ($greeting == 1)
 {
 ?>
+<!-- BEGIN: Masterpro jWeather By IP -->
 <div style="color:<?php echo $color_title;?>;font-size:<?php echo $font_size_title;?>;">
    <script>
       var h=(new Date()).getHours();
       if (h > 23 || h <7) document.write("<?php
-         echo $good_night . $start[2];
+         echo $good_night . $location[2];
          ?>");
       if (h > 6 && h < 12) document.write("<?php
-         echo $good_morning . $start[2];
+         echo $good_morning . $location[2];
          ?>");
       if (h > 11 && h < 19) document.write("<?php
-         echo $good_day . $start[2];
+         echo $good_day . $location[2];
          ?>");
       if (h > 18 && h < 24) document. write("<?php
-         echo $good_evening . $start[2];
+         echo $good_evening . $location[2];
          ?>"); 
    </script>
 </div>
@@ -65,12 +66,14 @@ if (in_array(1, $values))
         case 1:
             $html .= '<tr><td><img src="https://openweathermap.org/img/w/' . $source[0] . '.png" title="' . $source[1] . '"></td></tr>';
         break;
-        case 2:
         case 5:
             $html .= '<tr><td><img src="/modules/mod_jweather_by_ip/img/icons/' . $source[0] . '.png" title="' . $source[1] . '"></td></tr>';
         break;
         case 6:
             $html .= '<tr><td><img src="/modules/mod_jweather_by_ip/img/icons/' . $icon_open_meteo . '.png" title="' . $source[1] . '"></td></tr>';
+        break;
+        case 7:
+            $html .= '<tr><td><img src="/modules/mod_jweather_by_ip/img/meteosource_icons/' . $icon_meteosource . '.png" title="' . $source[1] . '"></td></tr>';
         break;
         default:
             $html .= '<tr><td><img src="' . $source[0] . '" title="' . $source[1] . '"></td></tr>';
@@ -99,11 +102,11 @@ switch ($map)
       ymaps.ready(init); 
       function init () {
       var myMap = new ymaps.Map("map_ya", { 
-      center: [<?php echo $start[0] . ',' . $start[1]; ?>], 
+      center: [<?php echo $location[0] . ',' . $location[1]; ?>], 
       zoom: <?php echo $zoom; ?>,
       controls: ['zoomControl','fullscreenControl']
       }); 
-      myPlacemark = new ymaps.Placemark([<?php echo $start[0] . ',' . $start[1]; ?>], {
+      myPlacemark = new ymaps.Placemark([<?php echo $location[0] . ',' . $location[1]; ?>], {
       balloonContent: '<?php echo $html ?>'}); 
       myMap.geoObjects 
       .add(myPlacemark);
@@ -118,7 +121,7 @@ switch ($map)
 <div id="map" style="width:100%;height:<?php echo $height_map; ?>"></div>
 <script>
    function initMap() {
-     var coord = {lat: <?php echo $start[0]; ?>, lng: <?php echo $start[1]; ?>};
+     var coord = {lat: <?php echo $location[0]; ?>, lng: <?php echo $location[1]; ?>};
      var map = new google.maps.Map(document.getElementById('map'), {
        zoom: <?php echo $zoom; ?>,
        center: coord
@@ -154,3 +157,4 @@ table.jwbyip td {
 <?php echo $table_td_style ?>
 }
 </style>
+<!-- END: Masterpro jWeather By IP -->

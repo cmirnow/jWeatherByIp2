@@ -46,11 +46,12 @@ $map = $params->get('map');
 $html_for_balloon = $params->get('html_for_balloon');
 $zoom = $params->get('zoom');
 $table_td_style = $params->get('table_td_style');
-$start = JweatherbyipHelper::getStart($params);
+$location = JweatherbyipHelper::getLocation($params);
 $names = JweatherbyipHelper::getNames($params);
 $source = JweatherbyipHelper::getSource($params);
 $values = JweatherbyipHelper::getValues($params);
 $lang = JweatherbyipHelper::getLang($params);
 $icon_open_meteo = JweatherbyipHelper::icons_open_meteo($source[0]);
+$icon_meteosource = $source[0];
 
 require ModuleHelper::getLayoutPath('mod_jweather_by_ip', $params->get('layout', 'default'));

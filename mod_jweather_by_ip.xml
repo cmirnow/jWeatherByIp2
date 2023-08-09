@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension type="module" version="4.0" client="site" method="upgrade">
    <name>jWeather by ip</name>
-   <creationDate>October 27, 2022</creationDate>
+   <creationDate>August 9, 2023</creationDate>
    <author>Masterpro project</author>
    <authorEmail>info@masterpro.ws</authorEmail>
    <authorUrl>https://masterpro.ws</authorUrl>
    <copyright>Copyright 2015 Alexei Smirnov. All rights reserved.</copyright>
    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-   <version>2.3.0</version>
+   <version>2.4.0</version>
    <description><![CDATA[<p><a href="http://masterpro.ws" target="_blank"><img style="margin-bottom: 15px; margin-top: 15px;" src="/modules/mod_jweather_by_ip/img/logo.png" alt="Masterpro.ws" /></a></p>
 <p><h2>jWeather by ip</strong></h2>
 <p style="font-style:italic; border:2px solid green;padding:10px;">Masterpro studio bring projects to life using most recent tools and techniques, modern CMS and E-Commerce solutions. Welcome.</p>
-<p>The Joomla 4* weather module <strong>jWeather By IP</strong> allows you to choose between WorldWeatherOnline, Dark Sky, Visual Crossing, Open-Meteo and OpenWeatherMap, and between IPGeolocation.io and Geoplugin.com. By default, this module uses the free plugin to geotargeting geoPlugin.</p>
-<p style="border:2px solid red;padding:10px;">Support for the Dark Sky API will be ending on March 31st, 2023. Dark Sky is no longer accepting new members.</p>
+<p>The Joomla 4* weather module <strong>jWeather By IP</strong> allows you to choose between WorldWeatherOnline, Visual Crossing, Open-Meteo, MeteoSource and OpenWeatherMap, and between IPGeolocation.io and Geoplugin.com. By default, this module uses the free plugin to geotargeting geoPlugin.</p>
 <p><strong>Getting Started, step by step:</strong></p>
 <ol>
-<li>Install module.</li>
+<li>Install and publish "jWeather by ip".</li>
 <li>Your new Joomla module is already working! The Open-Meteo API and geoPlugin are enabled by default. There is no need to register access keys.</li>
 <li>Optional. Go to <a href="https://worldweatheronline.com/developer/" target="_blank">World Weather Online</a> and get your premium api_key. Attention, World Weather Online Free API signup has now been suspended. For new users to use Weather API they will be issued Premium Trial key for free testing for 30 days.</li>
 <li>Optional: you can use <a href="https://home.openweathermap.org/users/sign_up" target="_blank">OpenWeatherMap</a> weather station (60 calls/minute, 1000000 calls/month Free).</li>
 <li>Optional: you can use <a href="https://www.visualcrossing.com/weather-api" target="_blank">Visual Crossing</a> weather station (1000 records/day).</li>
+<li>Optional: you can use <a href="https://www.meteosource.com" target="_blank">MeteoSource Global Weather API</a> weather station (400 free calls per day).</li>
 <li>Optional: go to <a href="https://app.ipgeolocation.io/auth/login" target="_blank">IPGeolocation.io</a> and get your free (1K Daily Limit) or Premium api_key.</li>
 <li>Go to "Module Manager" ->  "jWeather by ip", enter your api_keys, select the required options and turn on the module.</li>
 <li>Enjoy!</li>
@@ -28,7 +28,7 @@
 <p><a href="http://masterpro.ws/jweather-by-ip-pogoda-po-ip-dlya-joomla" target="_blank">Learn more</a></p>]]></description>
    <namespace>JweatherbyipNamespace\Module\Jweatherbyip</namespace>
    <updateservers>
-      <server type="extension" priority="1" name="Masterpro project">https://masterpro.ws/geo/updates/jweatherbyip.xml</server>
+      <server type="extension" priority="1" name="Masterpro Update Server">https://update.masterpro.ws/joomla4x/mod_jweatherbyip.xml</server>
    </updateservers>
    <files>
       <filename module="mod_jweather_by_ip">mod_jweather_by_ip.php</filename>
@@ -76,14 +76,14 @@
                <option value="3">WorldWeatherOnline: Marine, Sailing and Surfing Weather</option>
                <option value="1">OpenWeatherMap</option>
                <option value="5">Visual Crossing</option>
-               <option value="2">Dark Sky</option>
                <option value="6">Open-Meteo</option>
+               <option value="7">Meteosource</option>
                <option value="4">None</option>
             </field>
             <field name="api_key" type="text" default="" label="API_KEY" description="API_KEY_DESC" showon="weather_source_choose:0[OR]weather_source_choose:3" />
             <field name="api_key_owm" type="text" default="" label="OPENWEATHERMAP_KEY" description="OPENWEATHERMAP_DESK" showon="weather_source_choose:1" />
-            <field name="api_key_dsky" type="text" default="" label="DARKSKY_KEY" description="DARKSKY_DESK" showon="weather_source_choose:2" />
             <field name="api_key_visualcrossing" type="text" default="" label="VISUALCROSSING_KEY" description="VISUAL_CROSSING_DESK" showon="weather_source_choose:5" />
+            <field name="api_key_meteosource" type="text" default="" label="METEOSOURCE_KEY" description="METEOSOURCE_DESK" showon="weather_source_choose:7" />
             <field name="api_key_geoloc" type="text" default="" label="IPGEOLOCATION_KEY" description="IPGEOLOCATION_DESK" showon="api_choose:2" />
             <field name="api_googlemap" type="text" default="" label="GOOGLEMAP_KEY" description="GOOGLEMAP_DESC" showon="map:30" />
             <field name="api_yandexmap" type="text" default="" label="YANDEXMAP_KEY" description="YANDEXMAP_DESC" showon="map:31" />
@@ -116,43 +116,47 @@
                <option value="0">Нет</option>
                <option value="2">Да</option>
             </field>
-            <field name="temp_C" type="radio" default="0" label="TEMPERC" description="TEMPERC_DESC" class="btn-group" showon="weather_source_choose!:4[AND]weather_source_choose!:6">
+            <field name="temp_C" type="radio" default="0" label="TEMPERC" description="TEMPERC_DESC" class="btn-group" showon="weather_source_choose!:4[AND]weather_source_choose!:7[AND]weather_source_choose!:6">
                <option value="0">Нет</option>
                <option value="3">Да</option>
             </field>
-            <field name="windspeedKmph" type="radio" default="0" label="WINDSPEED" description="WINDSPEED_DESC" class="btn-group" showon="weather_source_choose!:4[AND]weather_source_choose!:6">
+            <field name="windspeedKmph" type="radio" default="0" label="WINDSPEED" description="WINDSPEED_DESC" class="btn-group" showon="weather_source_choose!:4[AND]weather_source_choose!:6[AND]weather_source_choose!:7">
                <option value="0">Нет</option>
                <option value="4">Да</option>
             </field>
-            <field name="pressure" type="radio" default="0" label="PRESSURE" description="PRESSURE_DESC" class="btn-group" showon="weather_source_choose!:4[AND]weather_source_choose!:6">
+            <field name="pressure" type="radio" default="0" label="PRESSURE" description="PRESSURE_DESC" class="btn-group" showon="weather_source_choose!:4[AND]weather_source_choose!:6[AND]weather_source_choose!:7">
                <option value="0">Нет</option>
                <option value="5">Да</option>
             </field>
-            <field name="humidity" type="radio" default="0" label="HIMIDITY" description="HIMIDITY_DESC" class="btn-group" showon="weather_source_choose!:4[AND]weather_source_choose!:6">
+            <field name="humidity" type="radio" default="0" label="HIMIDITY" description="HIMIDITY_DESC" class="btn-group" showon="weather_source_choose!:4[AND]weather_source_choose!:6[AND]weather_source_choose!:7">
                <option value="0">Нет</option>
                <option value="6">Да</option>
             </field>
-            <field name="cloudcover" type="radio" default="0" label="CLOUDCOVER" description="CLOUDCOVER_DESC" class="btn-group" showon="weather_source_choose!:4[AND]weather_source_choose!:6">
+            <field name="cloudcover" type="radio" default="0" label="CLOUDCOVER" description="CLOUDCOVER_DESC" class="btn-group" showon="weather_source_choose!:4[AND]weather_source_choose!:6[AND]weather_source_choose!:7">
                <option value="0">Нет</option>
                <option value="7">Да</option>
             </field>
-            <field name="visibility" type="radio" default="0" label="VISIVILITY" description="VISIVILITY_DESC" class="btn-group" showon="weather_source_choose!:4[AND]weather_source_choose!:6">
+            <field name="cloudcover_meteosource" type="radio" default="0" label="CLOUDCOVER" description="CLOUDCOVER_DESC" class="btn-group" showon="weather_source_choose:7">
+               <option value="0">Нет</option>
+               <option value="6">Да</option>
+            </field>
+            <field name="visibility" type="radio" default="0" label="VISIVILITY" description="VISIVILITY_DESC" class="btn-group" showon="weather_source_choose!:4[AND]weather_source_choose!:6[AND]weather_source_choose!:7">
                <option value="0">Нет</option>
                <option value="8">Да</option>
             </field>
-            <field name="weatherDesc" type="radio" default="0" label="WEATHER_IN_TWO_WORDS" description="WEATHER_DESC" class="btn-group" showon="weather_source_choose!:4[AND]weather_source_choose!:6">
+            <field name="weatherDesc" type="radio" default="0" label="WEATHER_IN_TWO_WORDS" description="WEATHER_DESC" class="btn-group" showon="weather_source_choose!:4[AND]weather_source_choose!:6[AND]weather_source_choose!:7">
                <option value="0">Нет</option>
                <option value="9">Да</option>
             </field>
-            <field name="temperature" type="radio" default="0" label="TEMPERC" description="TEMPERATURE_DESK" class="btn-group" showon="weather_source_choose:6">
+            <field name="temperature" type="radio" default="0" label="TEMPERC" description="TEMPERATURE_DESK" class="btn-group" showon="weather_source_choose:6[OR]weather_source_choose:7">
                <option value="0">Нет</option>
                <option value="3">Да</option>
             </field>
-            <field name="windspeed" type="radio" default="0" label="WINDSPEED" description="WINDSPEED_DESK" class="btn-group" showon="weather_source_choose:6">
+            <field name="windspeed" type="radio" default="0" label="WINDSPEED" description="WINDSPEED_DESK" class="btn-group" showon="weather_source_choose:6[OR]weather_source_choose:7">
                <option value="0">Нет</option>
                <option value="4">Да</option>
             </field>
-            <field name="winddirection" type="radio" default="0" label="WINDDIRECTION" description="WINDDIRECTION_DESK" class="btn-group" showon="weather_source_choose:6">
+            <field name="winddirection" type="radio" default="0" label="WINDDIRECTION" description="WINDDIRECTION_DESK" class="btn-group" showon="weather_source_choose:6[OR]weather_source_choose:7">
                <option value="0">Нет</option>
                <option value="5">Да</option>
             </field>
@@ -160,7 +164,7 @@
                <option value="0">Нет</option>
                <option value="6">Да</option>
             </field>
-            <field name="timezone" type="radio" default="0" label="TIMEZONE" description="TIMEZONE_DESK" class="btn-group" showon="weather_source_choose:6">
+            <field name="timezone" type="radio" default="0" label="TIMEZONE" description="TIMEZONE_DESK" class="btn-group" showon="weather_source_choose:6[OR]weather_source_choose:7">
                <option value="0">Нет</option>
                <option value="7">Да</option>
             </field>

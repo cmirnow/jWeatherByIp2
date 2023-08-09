@@ -67,7 +67,7 @@ const WEATHER_CODES_OPEN_METEO = array(
 
 class JweatherbyipHelper
 {
-    public static function getStart($params)
+    public static function getLocation($params)
     {
         $x = $params->get('api_choose');
         switch ($x)
@@ -96,7 +96,7 @@ class JweatherbyipHelper
             case 0:
                 $api_key = $params->get('api_key');
                 $num_of_days = 1;
-                $coord = self::getStart($params);
+                $coord = self::getLocation($params);
                 unset($coord[2]);
                 $loc_string = implode(',', $coord);
                 $basicurl = sprintf('https://api2.worldweatheronline.com/premium/v1/weather.ashx?key=%s&q=%s&num_of_days=%s', $api_key, $loc_string, intval($num_of_days));
@@ -126,10 +126,11 @@ class JweatherbyipHelper
                     ->weather
                     ->astronomy->moon_illumination];
             break;
+            
             case 1:
                 $api_key = $params->get('api_key_owm');
                 $num_of_days = 1;
-                $json = file_get_contents('https://api.openweathermap.org/data/2.5/weather?lat=' . self::getStart($params) [0] . '&lon=' . self::getStart($params) [1] . '&appid=' . $api_key . '&units=metric');
+                $json = file_get_contents('https://api.openweathermap.org/data/2.5/weather?lat=' . self::getLocation($params) [0] . '&lon=' . self::getLocation($params) [1] . '&appid=' . $api_key . '&units=metric');
                 $obj = json_decode($json, true);
                 return [
                 $obj['weather']['0']['icon'],
@@ -145,25 +146,9 @@ class JweatherbyipHelper
                 HtmlHelper::date(new Date($obj['sys']['sunset']), Text::_('DATE_FORMAT_FILTER_DATETIME'))
             ];
             break;
-            case 2:
-                $api_key = $params->get('api_key_dsky');
-                $json = file_get_contents('https://api.darksky.net/forecast/' . $api_key . '/' . self::getStart($params) [0] . ',' . self::getStart($params) [1] . '?units=auto&exclude=minutely,hourly,daily,alerts,flags');
-                $obj = json_decode($json, true);
-                return [
-                $obj['currently']['icon'],
-                $obj['currently']['summary'],
-                $obj['currently']['temperature'],
-                $obj['currently']['windSpeed'],
-                $obj['currently']['pressure'],
-                $obj['currently']['humidity'],
-                $obj['currently']['cloudCover'],
-                $obj['currently']['visibility'],
-                $obj['currently']['summary']
-            ];
-            break;
 
             case 6:
-                $json = file_get_contents('https://api.open-meteo.com/v1/forecast?latitude=' . self::getStart($params) [0] . '&longitude=' . self::getStart($params) [1] . '&current_weather=true&timezone=auto');
+                $json = file_get_contents('https://api.open-meteo.com/v1/forecast?latitude=' . self::getLocation($params) [0] . '&longitude=' . self::getLocation($params) [1] . '&current_weather=true&timezone=auto');
                 $obj = json_decode($json, true);
                 return [
                 $obj['current_weather']['weathercode'],
@@ -176,9 +161,24 @@ class JweatherbyipHelper
             ];
             break;
 
+            case 7:
+                $api_key = $params->get('api_key_meteosource');
+                $json = file_get_contents('https://www.meteosource.com/api/v1/free/point?lat=' . self::getLocation($params) [0] . '&lon=' . self::getLocation($params) [1] . '&sections=current&language=en&units=metric&key=' . $api_key);
+                $obj = json_decode($json, true);
+                return [
+                $obj['current']['icon_num'],
+                $obj['current']['summary'],
+                $obj['current']['temperature'],
+                $obj['current']['wind']["speed"],
+                $obj['current']['wind']['dir'],
+                $obj['current']['cloud_cover'],
+                $obj['timezone']
+            ];
+            break;
+
             case 5:
                 $api_key = $params->get('api_key_visualcrossing');
-                $json = file_get_contents('https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/' . self::getStart($params) [0] . ',' . self::getStart($params) [1] . '/today?unitGroup=metric&include=days&key=' . $api_key);
+                $json = file_get_contents('https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/' . self::getLocation($params) [0] . ',' . self::getLocation($params) [1] . '/today?unitGroup=metric&include=days&key=' . $api_key);
                 $obj = json_decode($json, true);
                 return [
                 $obj["days"][0]['icon'],
@@ -199,14 +199,14 @@ class JweatherbyipHelper
                 $obj["days"][0]['severerisk'],
                 $obj["days"][0]['dew'],
                 $obj["days"][0]['feelslike'],
-                $obj["days"][0]['preciptype']
+                $obj["days"][0]['preciptype'][0]
             ];
             break;
 
             case 3:
                 $api_key = $params->get('api_key');
                 /* $num_of_days = 1; */
-                $coord = self::getStart($params);
+                $coord = self::getLocation($params);
                 unset($coord[2]);
                 $loc_string = implode(',', $coord);
                 $basicurl = sprintf('https://api.worldweatheronline.com/premium/v1/marine.ashx?key=%s&q=%s&tp=24', $api_key, $loc_string);
@@ -323,6 +323,15 @@ class JweatherbyipHelper
             'TIME',
             'TIMEZONE'
         );
+        $meteosource = array(
+            'WEATHER_ICON',
+            'WEATHER_MAIN',
+            'TEMPERC',
+            'WINDSPEED',
+            'WINDDIRECTION',
+            'CLOUDCOVER_FR',
+            'TIMEZONE'
+        );
         $x = $params->get('weather_source_choose');
         switch ($x)
         {
@@ -340,6 +349,9 @@ class JweatherbyipHelper
             break;
             case 6:
                 return $openmeteo;
+            break;
+            case 7:
+                return $meteosource;
             break;
             default:
                 return $main;
@@ -404,6 +416,15 @@ class JweatherbyipHelper
             $params->get('time') ,
             $params->get('timezone')
         );
+        $meteosource = array(
+            $params->get('img') ,
+            $params->get('title') ,
+            $params->get('temperature') ,
+            $params->get('windspeed') ,
+            $params->get('winddirection') ,
+            $params->get('cloudcover_meteosource') ,
+            $params->get('timezone')
+        );
 
         $x = $params->get('weather_source_choose');
         switch ($x)
@@ -422,6 +443,9 @@ class JweatherbyipHelper
             break;
             case 6:
                 return $openmeteo;
+            break;
+            case 7:
+                return $meteosource;
             break;
             default:
                 return $main;
