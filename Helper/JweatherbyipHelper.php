@@ -1,6 +1,6 @@
 <?php
 /**
- * jWeather by ip. Module for Joomla 4.x
+ * jWeather by ip. Module for Joomla 4.x & 5.x
  * @version $Id: mod_jweather_by_ip.php 2015-12-31 $
  * @package: jWeather by ip
  * ===================================================

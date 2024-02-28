@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension type="module" version="4.0" client="site" method="upgrade">
    <name>jWeather by ip</name>
-   <creationDate>August 9, 2023</creationDate>
+   <creationDate>February 28, 2024</creationDate>
    <author>Masterpro project</author>
    <authorEmail>info@masterpro.ws</authorEmail>
    <authorUrl>https://masterpro.ws</authorUrl>
    <copyright>Copyright 2015 Alexei Smirnov. All rights reserved.</copyright>
    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-   <version>2.4.0</version>
+   <version>2.4.1</version>
    <description><![CDATA[<p><a href="http://masterpro.ws" target="_blank"><img style="margin-bottom: 15px; margin-top: 15px;" src="/modules/mod_jweather_by_ip/img/logo.png" alt="Masterpro.ws" /></a></p>
 <p><h2>jWeather by ip</strong></h2>
 <p style="font-style:italic; border:2px solid green;padding:10px;">Masterpro studio bring projects to life using most recent tools and techniques, modern CMS and E-Commerce solutions. Welcome.</p>

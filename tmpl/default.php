@@ -1,6 +1,6 @@
 <?php
 /**
- * jWeather by ip. Module for Joomla 4.x
+ * jWeather by ip. Module for Joomla 4.x & 5.x
  * @version $Id: mod_jweather_by_ip.php 2015-12-31 $
  * @package: jWeather by ip
  * ===================================================
@@ -27,6 +27,8 @@
 */
 // No direct access
 defined('_JEXEC') or die;
+use Joomla\CMS\Language\Text;
+
 if ($greeting == 1)
 {
 ?>
@@ -83,7 +85,7 @@ foreach (array_combine($names, $source) as $names => $source):
     $html .= '<tr>';
     if (in_array($i, $values) and $i > 1)
     {
-        $html .= '<td>' . JText::_($names) . '</td>';
+        $html .= '<td>' . Text::_($names) . '</td>';
         $html .= '<td>' . $source . '</td>';
     }
     $html .= '</tr>';
