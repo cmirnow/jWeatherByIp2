@@ -1,5 +1,5 @@
  
-## jWeather By IP. Joomla 4 module
+## jWeather By IP. Joomla 4.x & 5.x module
 
 [![jWeather By IP](https://github.com/cmirnow/jWeatherByIP/blob/master/img/jweatherbyip.jpg)](https://masterpro.ws/jweather-by-ip-pogoda-po-ip-dlya-joomla "Weather by ip for Joomla!")
 
